@@ -17,6 +17,32 @@ SPACE = range(N)
 def m(a,b) -> int:
     return SQUARE[a][b]
 
+def square(size, seq):
+    return [seq[i:(i+size)] for i in range(0, len(seq), size)]
+    
+def generate_square(size, prefix=[]):
+    sq = square(size, prefix)
+
+    if not is_latin(sq):
+        return
+    
+    num_elements = size*size
+    if len(prefix) == num_elements:
+        yield sq
+        return
+
+    for i in range(size):
+        yield from generate_square(size, prefix+[i])
+
+def generate_square_verify():
+    for sq in generate_square(5):
+        assert is_latin(sq)
+        for row in sq:
+            for item in row:
+                print(item, end='')
+            print()
+        print()
+
 def is_latin(square):
     return (
         all(len(set(row)) == len(row) for row in square) and
