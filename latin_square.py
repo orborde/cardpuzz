@@ -46,22 +46,25 @@ def solve(m,space,view,x):
 def pl(*args, **kwargs):
     print(*args, end=' ', **kwargs)
 
-for gamestate in itertools.product(SPACE, repeat=N):
-    pl(gamestate)
-    
-    solved=False
-    for player in range(N):
-        hidden = gamestate[player]
-        view = gamestate[:player] + gamestate[(player+1):]
-        guess = solve(m, SPACE, view, player)
-        pl(f'{player}:{guess}')
-        if guess == hidden:
-            pl('✅')
-            solved=True
-        else:
-            pl('❌')
+def check():
+    for gamestate in itertools.product(SPACE, repeat=N):
+        pl(gamestate)
 
-    if not solved:
-        pl('NOT SOLVED')
+        solved=False
+        for player in range(N):
+            hidden = gamestate[player]
+            view = gamestate[:player] + gamestate[(player+1):]
+            guess = solve(m, SPACE, view, player)
+            pl(f'{player}:{guess}')
+            if guess == hidden:
+                pl('✅')
+                solved=True
+            else:
+                pl('❌')
 
-    print()
+        if not solved:
+            pl('NOT SOLVED')
+
+        print()
+
+check()
