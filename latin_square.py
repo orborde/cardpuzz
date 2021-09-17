@@ -73,6 +73,7 @@ def pl(*args, **kwargs):
     print(*args, end=' ', **kwargs)
 
 def check():
+    all_solved = True
     for gamestate in itertools.product(SPACE, repeat=N):
         pl(gamestate)
 
@@ -88,9 +89,12 @@ def check():
             else:
                 pl('❌')
 
+        all_solved = all_solved and solved
         if not solved:
             pl('NOT SOLVED')
 
         print()
+    if not all_solved:
+        print('❌❌❌❌❌❌❌ FAILED TO SOLVE ALL ❌❌❌❌❌❌❌')
 
 check()
