@@ -14,8 +14,8 @@ SQUARE = [
 
 SPACE = range(N)
 
-def m(a,b) -> int:
-    return SQUARE[a][b]
+def m(square,a,b) -> int:
+    return square[a][b]
 
 def become_square(size, seq):
     return [seq[i:(i+size)] for i in range(0, len(seq), size)]
@@ -62,20 +62,23 @@ def commutative_counterexample(m, space):
         if m(a,b) != m(b,a):
             return (a,b)
 
+M=lambda a,b: m(SQUARE,a,b)
 assert is_latin(SQUARE)
-assert associative_counterexample(m, SPACE) is None
-assert commutative_counterexample(m, SPACE) is None
+assert associative_counterexample(M, SPACE) is None
+assert commutative_counterexample(M, SPACE) is None
 
-def solve(m,space,view,x):
-    q = functools.reduce(m, view)
+def solve(m,space,view_left,view_right,x):
     for c in space:
-        if m(q,c) == x:
+        q = functools.reduce(m, list(view_left)+[c]+list(view_right))
+        if q == x:
             return c
 
 def pl(*args, **kwargs):
     print(*args, end=' ', **kwargs)
 
-def check():
+def check(square):
+    m_local = lambda a,b: m(square,a,b)
+
     all_solved = True
     for gamestate in itertools.product(SPACE, repeat=N):
         pl(gamestate)
@@ -83,8 +86,9 @@ def check():
         solved=False
         for player in range(N):
             hidden = gamestate[player]
-            view = gamestate[:player] + gamestate[(player+1):]
-            guess = solve(m, SPACE, view, player)
+            view_left =  gamestate[:player]
+            view_right = gamestate[player+1:]
+            guess = solve(m_local, SPACE, view_left, view_right, player)
             pl(f'{player}:{guess}')
             if guess == hidden:
                 pl('✅')
@@ -99,5 +103,10 @@ def check():
         print()
     if not all_solved:
         print('❌❌❌❌❌❌❌ FAILED TO SOLVE ALL ❌❌❌❌❌❌❌')
+    return all_solved
+    
 
-check()
+for square in generate_square(N):
+    print('\n\n')
+    print_square(square)
+    assert check(square)
