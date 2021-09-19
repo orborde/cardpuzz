@@ -17,11 +17,11 @@ SPACE = range(N)
 def m(a,b) -> int:
     return SQUARE[a][b]
 
-def square(size, seq):
+def become_square(size, seq):
     return [seq[i:(i+size)] for i in range(0, len(seq), size)]
     
 def generate_square(size, prefix=[]):
-    sq = square(size, prefix)
+    sq = become_square(size, prefix)
 
     if not is_latin(sq):
         return
