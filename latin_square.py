@@ -37,10 +37,13 @@ def generate_square(size, prefix=[]):
 def generate_square_verify():
     for sq in generate_square(5):
         assert is_latin(sq)
-        for row in sq:
-            for item in row:
-                print(item, end='')
-            print()
+        print_square(sq)
+        print()
+
+def print_square(sq):
+    for row in sq:
+        for item in row:
+            print(item, end='')
         print()
 
 def is_latin(square):
