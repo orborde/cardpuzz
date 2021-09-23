@@ -85,7 +85,7 @@ def solve_via_map(card_mapping, player_mapping, player, view_left, view_right):
 
     # lazy lazy
     for x in SPACE:
-        if x + sum(view_left) + sum(view_right) == player:
+        if (x + sum(view_left) + sum(view_right))%N == player:
             return x
 
 def solvers_equivalent(solver_a, solver_b):
