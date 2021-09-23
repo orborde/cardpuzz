@@ -121,6 +121,9 @@ def check_solve_via_map():
             def map_solver(player, view_left, view_right):
                 return solve_via_map(card_mapping, player_mapping, player, view_left, view_right)
 
+            if not check(map_solver, verbose=False):
+                continue
+
             eq = solvers_equivalent(hypercube_solver, map_solver)
             pl(f'{card_perm} {player_perm}')
             if eq:
