@@ -50,32 +50,32 @@ def hypercube_solver(player, view_left, view_right):
 def pl(*args, **kwargs):
     print(*args, end=' ', **kwargs)
 
-def check_original():
+def check(solver, verbose=True):
     all_solved = True
     for gamestate in itertools.product(SPACE, repeat=N):
         gamestate = list(gamestate) # thanks python
-        pl(gamestate)
+        if verbose: pl(gamestate)
 
         solved=False
         for player in range(N):
             hidden = gamestate[player]
             view_left =  gamestate[:player]
             view_right = gamestate[player+1:]
-            guess = hypercube_solver(player, view_left, view_right)
-            pl(f'{player}:{guess}')
+            guess = solver(player, view_left, view_right)
+            if verbose: pl(f'{player}:{guess}')
             if guess == hidden:
-                pl('✅')
+                if verbose: pl('✅')
                 solved=True
             else:
-                pl('❌')
+                if verbose: pl('❌')
 
         all_solved = all_solved and solved
         if not solved:
-            pl('NOT SOLVED')
+            if verbose: pl('NOT SOLVED')
 
-        print()
+        if verbose: print()
     if not all_solved:
-        print('❌❌❌❌❌❌❌ FAILED TO SOLVE ALL ❌❌❌❌❌❌❌')
+        if verbose: print('❌❌❌❌❌❌❌ FAILED TO SOLVE ALL ❌❌❌❌❌❌❌')
     return all_solved
 
 def solve_via_map(card_mapping, player_mapping, player, view_left, view_right):
@@ -132,4 +132,6 @@ def check_solve_via_map():
             print()
     print('❌❌❌❌❌❌❌ NO SOLUTIONS ❌❌❌❌❌❌❌')
 
+assert check(hypercube_solver)
+print()
 check_solve_via_map()
