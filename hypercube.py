@@ -135,6 +135,6 @@ def check_solve_via_map():
             print()
     print('❌❌❌❌❌❌❌ NO SOLUTIONS ❌❌❌❌❌❌❌')
 
-assert check(hypercube_solver)
+assert check(hypercube_solver, verbose=False)
 print()
 check_solve_via_map()
